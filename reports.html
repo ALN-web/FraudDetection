@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Reports - SchemeGuard AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>SchemeGuard AI</span>
+                </div>
+            </div>
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="index.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="upload.html"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Data</a></li>
+                    <li><a href="fraud_analysis.html"><i class="fa-solid fa-magnifying-glass-chart"></i> Fraud
+                            Analysis</a></li>
+                    <li><a href="network_analysis.html"><i class="fa-solid fa-project-diagram"></i> Network Analysis</a>
+                    </li>
+                    <li class="active"><a href="reports.html"><i class="fa-solid fa-file-invoice"></i> Reports</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="profile-menu">
+                    <div class="icon-btn">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="Profile">
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Page Header -->
+            <header class="page-header" style="flex-direction:row; justify-content:space-between; align-items:center;">
+                <div>
+                    <h1>Fraud Reports</h1>
+                    <p>Comprehensive analytics and exportable reports for scheme fraud detection.</p>
+                </div>
+                <div class="report-date-badge">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <span>Report Period: <b>Jan – Mar 2026</b></span>
+                </div>
+            </header>
+
+            <!-- ── SECTION 1: Summary Cards ── -->
+            <div class="stats-grid" style="margin-bottom:32px;">
+
+                <div class="stat-card rpt-card">
+                    <div class="stat-icon primary"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info">
+                        <h3>Total Beneficiaries</h3>
+                        <h2 id="cnt-total">0</h2>
+                        <div class="trend positive">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>+4.2% this quarter</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card rpt-card">
+                    <div class="stat-icon danger"><i class="fa-solid fa-biohazard"></i></div>
+                    <div class="stat-info">
+                        <h3>Fraud Detected</h3>
+                        <h2 id="cnt-fraud">0</h2>
+                        <div class="trend negative">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>+1.8% this quarter</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card rpt-card">
+                    <div class="stat-icon info"><i class="fa-solid fa-copy"></i></div>
+                    <div class="stat-info">
+                        <h3>Duplicate Entries</h3>
+                        <h2 id="cnt-dup">0</h2>
+                        <div class="trend positive">
+                            <i class="fa-solid fa-arrow-trend-down"></i>
+                            <span>-2.1% this quarter</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card rpt-card">
+                    <div class="stat-icon warning"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="stat-info">
+                        <h3>Suspicious Cases</h3>
+                        <h2 id="cnt-susp">0</h2>
+                        <div class="trend negative">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>+0.9% this quarter</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <h2>Suspicious Beneficiaries</h2>
+
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Aadhaar</th>
+                        <th>Phone</th>
+                        <th>Bank</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+
+                <tbody id="report-table">
+
+                </tbody>
+
+            </table>
+
+            <!-- ── SECTION 2: Charts ── -->
+            <div class="rpt-charts-grid">
+
+                <!-- Bar Chart: Fraud by District -->
+                <div class="chart-container">
+                    <div class="card-header">
+                        <div>
+                            <h3>Fraud Cases by District</h3>
+                            <p class="chart-sub">Top 10 districts with highest fraud incidence</p>
+                        </div>
+                        <select class="filter-select" id="state-filter" style="min-width:130px">
+                            <option value="UP">Uttar Pradesh</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="MP">Madhya Pradesh</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                        </select>
+                    </div>
+                    <div class="chart-wrapper" style="min-height:300px">
+                        <canvas id="district-bar-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Line Chart: Detection Trend -->
+                <div class="chart-container">
+                    <div class="card-header">
+                        <div>
+                            <h3>Fraud Detection Trend</h3>
+                            <p class="chart-sub">Monthly case count across all schemes</p>
+                        </div>
+                        <div class="chart-legend-inline">
+                            <span class="legend-chip blue"></span>Scanned
+                            <span class="legend-chip red" style="margin-left:12px"></span>Flagged
+                        </div>
+                    </div>
+                    <div class="chart-wrapper" style="min-height:300px">
+                        <canvas id="trend-line-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SECTION 3: Export Panel ── -->
+            <div class="export-panel">
+                <div class="export-panel-left">
+                    <div class="export-icon-wrap">
+                        <i class="fa-solid fa-file-shield"></i>
+                    </div>
+                    <div>
+                        <h3>Export & Generate Reports</h3>
+                        <p>Download current analysis as a formatted report or raw dataset export.</p>
+                    </div>
+                </div>
+                <div class="export-actions">
+                    <button class="export-btn pdf" id="btn-pdf">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span>Download PDF Report</span>
+                    </button>
+                    <button class="export-btn csv" id="btn-csv">
+                        <i class="fa-solid fa-file-csv"></i>
+                        <span>Export CSV Data</span>
+                    </button>
+                    <button class="export-btn detailed" id="btn-detailed">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>Generate Detailed Report</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ── SECTION 4: Scheme breakdown table ── -->
+            <div class="table-container" style="margin-top:24px">
+                <div class="card-header">
+                    <h3>Scheme-wise Breakdown</h3>
+                    <span class="result-count">Fiscal Year <b>2025-26</b></span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Scheme Name</th>
+                                <th>Total Enrolled</th>
+                                <th>Fraud Cases</th>
+                                <th>Duplicate</th>
+                                <th>Suspicious</th>
+                                <th>Fraud Rate</th>
+                                <th>Risk Level</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheme-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <div class="report-summary">
+
+        <div class="report-card">
+            <h3>Total Beneficiaries</h3>
+            <p id="report-total">--</p>
+        </div>
+
+        <div class="report-card">
+            <h3>Duplicate Aadhaar</h3>
+            <p id="report-aadhaar">--</p>
+        </div>
+
+        <div class="report-card">
+            <h3>Duplicate Phone</h3>
+            <p id="report-phone">--</p>
+        </div>
+
+        <div class="report-card">
+            <h3>Duplicate Bank</h3>
+            <p id="report-bank">--</p>
+        </div>
+
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="reports.js"></script>
+</body>
+
+</html>

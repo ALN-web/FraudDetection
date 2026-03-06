@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchemeGuard AI - Government Scheme Fraud Detection System</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>SchemeGuard AI</span>
+                </div>
+            </div>
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li class="active"><a href="index.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="upload.html"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Data</a></li>
+                    <li><a href="fraud_analysis.html"><i class="fa-solid fa-magnifying-glass-chart"></i> Fraud
+                            Analysis</a></li>
+                    <li><a href="network_analysis.html"><i class="fa-solid fa-project-diagram"></i> Network Analysis</a>
+                    </li>
+                    <li><a href="reports.html"><i class="fa-solid fa-file-invoice"></i> Reports</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="profile-menu">
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fa-solid fa-sun" id="theme-icon"></i>
+                        <span id="theme-label">Light</span>
+                    </button>
+                    <div class="icon-btn notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="Profile">
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Overview Analytics</h1>
+                <p>Real-time monitoring of government scheme distributions and anomaly detection.</p>
+                <div class="date-filter">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>Last 30 Days</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </header>
+
+            <!-- Stats/Metric Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon primary">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Beneficiaries</h3>
+                        <h2>1,245,892</h2>
+                        <div class="trend positive">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>+4.2% from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon warning">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Suspicious Records</h3>
+                        <h2>24,591</h2>
+                        <div class="trend negative">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>+1.5% from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon danger">
+                        <i class="fa-solid fa-biohazard"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>High Risk Fraud</h3>
+                        <h2>8,342</h2>
+                        <div class="trend negative">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            <span>+0.8% from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon info">
+                        <i class="fa-solid fa-copy"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Duplicate Beneficiaries</h3>
+                        <h2>12,405</h2>
+                        <div class="trend positive">
+                            <i class="fa-solid fa-arrow-trend-down"></i>
+                            <span>-2.1% from last month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-container line-chart-card">
+                    <div class="card-header">
+                        <h3>Fraud Detection Trend</h3>
+                        <div class="card-actions">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="fraudTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container pie-chart-card">
+                    <div class="card-header">
+                        <h3>Fraud Distribution</h3>
+                        <div class="card-actions">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="fraudDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="table-container">
+                <div class="card-header">
+                    <h3>Recent Suspicious Beneficiaries</h3>
+                    <button class="btn-outline">View All</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID reference</th>
+                                <th>Beneficiary Name</th>
+                                <th>Scheme Name</th>
+                                <th>Risk Score</th>
+                                <th>Flag Reason</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="suspicious-table-body">
+                            <!-- Table rows will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Shared utilities (dark mode, animations) -->
+    <script src="sg_shared.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>

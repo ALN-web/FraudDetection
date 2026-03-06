@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Analysis Results - SchemeGuard AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>SchemeGuard AI</span>
+                </div>
+            </div>
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="index.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="upload.html"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Data</a></li>
+                    <li class="active"><a href="fraud_analysis.html"><i class="fa-solid fa-magnifying-glass-chart"></i>
+                            Fraud Analysis</a></li>
+                    <li><a href="#"><i class="fa-solid fa-project-diagram"></i> Network Analysis</a></li>
+                    <li><a href="#"><i class="fa-solid fa-file-invoice"></i> Reports</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="profile-menu">
+                    <div class="icon-btn">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="Profile">
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Fraud Analysis Results</h1>
+                    <p>AI-powered risk scoring across all scheme beneficiaries.</p>
+                </div>
+                <button class="btn-primary" id="export-btn">
+                    <i class="fa-solid fa-file-export"></i> Export Report
+                </button>
+            </header>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="search-input-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Search by name, ID or Aadhaar…"
+                        autocomplete="off">
+                </div>
+
+                <select id="risk-filter" class="filter-select">
+                    <option value="all">All Risk Levels</option>
+                    <option value="high">🔴 High Risk</option>
+                    <option value="medium">🟡 Suspicious</option>
+                    <option value="low">🟢 Safe</option>
+                </select>
+
+                <select id="scheme-filter" class="filter-select">
+                    <option value="all">All Schemes</option>
+                    <option value="PM Kisan">PM Kisan Samman Nidhi</option>
+                    <option value="Ayushman">Ayushman Bharat</option>
+                    <option value="PMAY">PMAY-G</option>
+                    <option value="MGNREGA">MGNREGA</option>
+                    <option value="NSAP">NSAP Pension</option>
+                    <option value="PMJDY">PMJDY</option>
+                </select>
+
+                <button class="btn-outline" id="reset-filters">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+            </div>
+
+            <!-- Body Layout: Table + Sidebar -->
+            <div class="analysis-layout">
+
+                <!-- Main Table -->
+                <div class="table-container">
+                    <div class="card-header">
+                        <h3>Suspicious Beneficiaries</h3>
+                        <span class="result-count" id="result-count">Showing <b>0</b> records</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="fraud-table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="select-all"></th>
+                                    <th>Beneficiary ID</th>
+                                    <th>Name</th>
+                                    <th>Aadhaar Number</th>
+                                    <th>Bank Account</th>
+                                    <th>Scheme</th>
+                                    <th>Risk Score</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fraud-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination"></div>
+                </div>
+
+                <!-- Right Sidebar -->
+                <aside class="analysis-sidebar">
+                    <!-- Risk summary cards -->
+                    <div class="sidebar-card">
+                        <h3>Risk Overview</h3>
+                        <div class="risk-summary-list">
+                            <div class="risk-summary-item high">
+                                <div class="rs-icon"><i class="fa-solid fa-circle-radiation"></i></div>
+                                <div class="rs-info">
+                                    <span class="rs-label">High Risk Cases</span>
+                                    <span class="rs-value" id="count-high">0</span>
+                                </div>
+                                <div class="rs-bar-wrap">
+                                    <div class="rs-bar" id="bar-high" style="width:0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="risk-summary-item medium">
+                                <div class="rs-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <div class="rs-info">
+                                    <span class="rs-label">Suspicious Cases</span>
+                                    <span class="rs-value" id="count-medium">0</span>
+                                </div>
+                                <div class="rs-bar-wrap">
+                                    <div class="rs-bar" id="bar-medium" style="width:0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="risk-summary-item low">
+                                <div class="rs-icon"><i class="fa-solid fa-circle-check"></i></div>
+                                <div class="rs-info">
+                                    <span class="rs-label">Safe Records</span>
+                                    <span class="rs-value" id="count-low">0</span>
+                                </div>
+                                <div class="rs-bar-wrap">
+                                    <div class="rs-bar" id="bar-low" style="width:0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top fraud reasons -->
+                    <div class="sidebar-card">
+                        <h3>Top Fraud Reasons</h3>
+                        <ul class="fraud-reasons-list">
+                            <li>
+                                <span class="reason-dot danger"></span>
+                                <span>Duplicate Aadhaar</span>
+                                <b>38%</b>
+                            </li>
+                            <li>
+                                <span class="reason-dot warning"></span>
+                                <span>Income Falsification</span>
+                                <b>27%</b>
+                            </li>
+                            <li>
+                                <span class="reason-dot info"></span>
+                                <span>Ghost Beneficiary</span>
+                                <b>19%</b>
+                            </li>
+                            <li>
+                                <span class="reason-dot success"></span>
+                                <span>Deceased Registrant</span>
+                                <b>16%</b>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Scan info -->
+                    <div class="sidebar-card scan-info-card">
+                        <div class="scan-info-row">
+                            <span class="scan-label">Last Scan</span>
+                            <span class="scan-val">06 Mar 2026, 00:14</span>
+                        </div>
+                        <div class="scan-info-row">
+                            <span class="scan-label">Model Version</span>
+                            <span class="scan-val">SG-AI v3.2.1</span>
+                        </div>
+                        <div class="scan-info-row">
+                            <span class="scan-label">Accuracy</span>
+                            <span class="scan-val" style="color:var(--success)">97.4%</span>
+                        </div>
+                        <div class="scan-info-row">
+                            <span class="scan-label">Dataset</span>
+                            <span class="scan-val">beneficiaries_2026.csv</span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <script src="fraud_analysis.js"></script>
+</body>
+
+</html>

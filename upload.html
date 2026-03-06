@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Dataset - SchemeGuard AI</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>SchemeGuard AI</span>
+                </div>
+            </div>
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="index.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li class="active"><a href="upload.html"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Data</a>
+                    </li>
+                    <li><a href="#"><i class="fa-solid fa-magnifying-glass-chart"></i> Fraud Analysis</a></li>
+                    <li><a href="#"><i class="fa-solid fa-project-diagram"></i> Network Analysis</a></li>
+                    <li><a href="#"><i class="fa-solid fa-file-invoice"></i> Reports</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="profile-menu">
+                    <div class="icon-btn notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="Profile">
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1>Upload Beneficiary Dataset</h1>
+                <p>Import new scheme beneficiary data securely for automated fraud analysis.</p>
+            </header>
+
+            <div class="upload-layout">
+                <div class="upload-main">
+                    <!-- Drag and Drop Box -->
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <h3>Drag and drop CSV file here</h3>
+                        <p>or click to upload</p>
+                        <button class="btn-primary" id="browse-btn">Browse Files</button>
+                        <span class="file-hint">Supported formats: CSV, Excel (Max 50MB)</span>
+                        <input type="file" id="file-input" hidden accept=".csv, .xlsx, .xls">
+                    </div>
+
+                    <!-- Preview Table -->
+                    <div class="table-container mt-4">
+                        <div class="card-header">
+                            <h3>Dataset Preview</h3>
+                            <button class="btn-primary" id="analyze-btn" onclick="analyzeData()">Analyze Data</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Aadhaar Number</th>
+                                        <th>Phone Number</th>
+                                        <th>Bank Account</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="preview-table-body">
+                                    <tr class="empty-state">
+                                        <td colspan="5">No data uploaded yet. Upload a file to see preview.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Panel -->
+                <div class="upload-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Dataset Summary</h3>
+                        <div class="summary-stats">
+                            <div class="summary-item">
+                                <div class="item-icon primary">
+                                    <i class="fa-solid fa-database"></i>
+                                </div>
+                                <div class="item-info">
+                                    <span class="item-label">Total Records</span>
+                                    <span class="item-value" id="val-total">--</span>
+                                </div>
+                            </div>
+
+                            <div class="summary-item">
+                                <div class="item-icon warning">
+                                    <i class="fa-solid fa-clone"></i>
+                                </div>
+                                <div class="item-info">
+                                    <span class="item-label">Duplicate Records</span>
+                                    <span class="item-value" id="val-duplicates">--</span>
+                                </div>
+                            </div>
+
+                            <div class="summary-item">
+                                <div class="item-icon danger">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+                                <div class="item-info">
+                                    <span class="item-label">Missing Data</span>
+                                    <span class="item-value" id="val-missing">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="upload-progress hidden" id="upload-progress">
+                            <div class="progress-info">
+                                <span id="upload-filename">dataset.csv</span>
+                                <span id="upload-percent">0%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="upload-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="upload.js"></script>
+</body>
+
+</html>

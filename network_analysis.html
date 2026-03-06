@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Analysis - SchemeGuard AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="network.css">
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>SchemeGuard AI</span>
+                </div>
+            </div>
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="index.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="upload.html"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Data</a></li>
+                    <li><a href="fraud_analysis.html"><i class="fa-solid fa-magnifying-glass-chart"></i> Fraud
+                            Analysis</a></li>
+                    <li class="active"><a href="network_analysis.html"><i class="fa-solid fa-project-diagram"></i>
+                            Network Analysis</a></li>
+                    <li><a href="#"><i class="fa-solid fa-file-invoice"></i> Reports</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="profile-menu">
+                    <div class="icon-btn">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="Profile">
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Network Layout: sidebar + canvas + details -->
+        <div class="network-layout">
+
+            <!-- Left Sidebar Filters -->
+            <aside class="network-sidebar">
+                <div class="ns-header">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>Filters</span>
+                </div>
+
+                <!-- Search -->
+                <div class="ns-section">
+                    <label class="ns-label">Search Beneficiary</label>
+                    <div class="ns-search-wrap">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="net-search" placeholder="Name or ID…">
+                    </div>
+                </div>
+
+                <!-- Scheme Filter -->
+                <div class="ns-section">
+                    <label class="ns-label">Scheme</label>
+                    <div class="ns-radio-group" id="scheme-group">
+                        <label class="ns-radio active" data-val="all">
+                            <span class="radio-dot"></span> All Schemes
+                        </label>
+                        <label class="ns-radio" data-val="PM Kisan">
+                            <span class="radio-dot"></span> PM Kisan
+                        </label>
+                        <label class="ns-radio" data-val="Ayushman">
+                            <span class="radio-dot"></span> Ayushman Bharat
+                        </label>
+                        <label class="ns-radio" data-val="PMAY">
+                            <span class="radio-dot"></span> PMAY-G
+                        </label>
+                        <label class="ns-radio" data-val="MGNREGA">
+                            <span class="radio-dot"></span> MGNREGA
+                        </label>
+                        <label class="ns-radio" data-val="NSAP">
+                            <span class="radio-dot"></span> NSAP Pension
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Risk Level Filter -->
+                <div class="ns-section">
+                    <label class="ns-label">Risk Level</label>
+                    <div class="ns-radio-group" id="risk-group">
+                        <label class="ns-radio active" data-val="all">
+                            <span class="radio-dot"></span> All Levels
+                        </label>
+                        <label class="ns-radio" data-val="high">
+                            <span class="radio-dot red"></span> High Risk
+                        </label>
+                        <label class="ns-radio" data-val="medium">
+                            <span class="radio-dot amber"></span> Suspicious
+                        </label>
+                        <label class="ns-radio" data-val="low">
+                            <span class="radio-dot green"></span> Safe
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="ns-section">
+                    <label class="ns-label">Node Types</label>
+                    <div class="ns-legend">
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444"></span>
+                            Beneficiary (High)
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b"></span>
+                            Beneficiary (Med)
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#10b981; box-shadow:0 0 8px #10b981"></span>
+                            Beneficiary (Safe)
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#3b82f6; box-shadow:0 0 8px #3b82f6"></span>
+                            Bank Account
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#8b5cf6; box-shadow:0 0 8px #8b5cf6"></span>
+                            Phone Number
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-dot" style="background:#06b6d4; box-shadow:0 0 8px #06b6d4"></span>
+                            Address
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="ns-section">
+                    <label class="ns-label">Controls</label>
+                    <div class="ns-controls">
+                        <button class="ctrl-btn" id="btn-reset-zoom" title="Reset zoom">
+                            <i class="fa-solid fa-expand"></i>
+                        </button>
+                        <button class="ctrl-btn" id="btn-pause" title="Pause simulation">
+                            <i class="fa-solid fa-pause"></i>
+                        </button>
+                        <button class="ctrl-btn" id="btn-reheat" title="Restart simulation">
+                            <i class="fa-solid fa-rotate"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Network Stats -->
+                <div class="ns-stats">
+                    <div class="ns-stat-row">
+                        <span>Total Nodes</span>
+                        <b id="stat-nodes">0</b>
+                    </div>
+                    <div class="ns-stat-row">
+                        <span>Connections</span>
+                        <b id="stat-links">0</b>
+                    </div>
+                    <div class="ns-stat-row">
+                        <span>Fraud Clusters</span>
+                        <b id="stat-clusters" style="color:var(--danger)">0</b>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Graph Canvas -->
+            <div class="network-canvas-wrap">
+                <div class="canvas-toolbar">
+                    <span class="canvas-title">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                        Fraud Network Graph
+                    </span>
+                    <div class="canvas-toolbar-right">
+                        <span class="toolbar-hint"><i class="fa-solid fa-circle-info"></i> Click node to inspect · Drag
+                            to reposition · Scroll to zoom</span>
+                    </div>
+                </div>
+                <svg id="network-graph"></svg>
+
+                <!-- Tooltip -->
+                <div class="graph-tooltip" id="graph-tooltip"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Details Panel -->
+        <div class="details-panel" id="details-panel">
+            <div class="details-panel-empty" id="details-empty">
+                <i class="fa-solid fa-arrow-pointer"></i>
+                <span>Click on any node in the network graph to inspect its details and connections.</span>
+            </div>
+            <div class="details-panel-content" id="details-content" style="display:none">
+                <div class="details-header">
+                    <div class="details-node-icon" id="d-node-icon"></div>
+                    <div>
+                        <h4 id="d-node-label">—</h4>
+                        <p id="d-node-type">—</p>
+                    </div>
+                    <button class="detail-close" id="detail-close"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="details-grid" id="details-grid"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="network-container">
+
+        <h2>Fraud Network Graph</h2>
+
+        <div id="fraud-graph" style="height:600px; width:100%; border-radius:10px;"></div>
+
+    </div>
+
+    <!-- D3.js v7 -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="network_analysis.js"></script>
+</body>
+
+</html>
